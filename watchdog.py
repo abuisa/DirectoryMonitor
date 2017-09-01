@@ -10,12 +10,13 @@ init()
 
 # WORK OK in WINDOWS 10 python 3
 # The Original Code is From : http://timgolden.me.uk/python/win32_how_do_i/watch_directory_for_changes.html
+
 ## Variable Global 
 wrk_dir = os.getcwd() + "\\"
-
+path_to_watch = input('Path to Watch : ')
 
 def watch_dir():
-	global wrk_dir
+	global wrk_dir,path_to_watch
 	ACTIONS = {
 	  1 : "CREATED",
 	  2 : "DELETED",
@@ -26,7 +27,8 @@ def watch_dir():
 	# Thanks to Claudio Grondi for the correct set of numbers
 	FILE_LIST_DIRECTORY = 0x0001
 
-	path_to_watch = "C:\\"
+	#path_to_watch = "C:\\"
+	
 	hDir = win32file.CreateFile (
 	  path_to_watch,
 	  FILE_LIST_DIRECTORY,
@@ -67,23 +69,26 @@ def watch_dir():
 	)
 	for action, file in results:
 		full_filename = os.path.join (path_to_watch, file)
-		#print( full_filename, ACTIONS.get (action, "Unknown"))
-		d0 = ACTIONS.get(action, "Unknown")
-		d1 = strftime("%Y-%m-%d %H:%M", gmtime())
-		d2 = str(d1 + ' : '+ ACTIONS.get(action, "Unknown") +'\t --> '+full_filename)
-		#print (ACTIONS.get(action, "Unknown") +'\t --> '+full_filename)
-		write_2file(wrk_dir+'Action.LOG',d2)
-		if d0 == "DELETED":
-			print(colored(d2,'red'))
-		elif d0 == "UPDATED":
-			print(colored(d2,'cyan'))
-		elif d0 == "CREATED":
-			print(colored(d2,'green'))
-		elif d0 == "RENAMED from :":
-			print(colored(d2,'yellow'))
-		else:
-			print(colored(d2,'blue'))
-			#print(d2)
+		if not "Action.LOG" in full_filename:
+			#	pass
+			#else:
+			#print( full_filename, ACTIONS.get (action, "Unknown"))
+			d0 = ACTIONS.get(action, "Unknown")
+			d1 = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+			d2 = str(d1 + ' : '+ ACTIONS.get(action, "Unknown") +'\t --> '+full_filename)
+			#print (ACTIONS.get(action, "Unknown") +'\t --> '+full_filename)
+			write_2file(wrk_dir+'Action.LOG',d2)
+			if d0 == "DELETED":
+				print(colored(d2,'red'))
+			elif d0 == "UPDATED":
+				print(colored(d2,'cyan'))
+			elif d0 == "CREATED":
+				print(colored(d2,'green'))
+			elif d0 == "RENAMED from :":
+				print(colored(d2,'yellow'))
+			else:
+				#print(colored(d2,'blue'))
+				print(d2)
 
 def write_2file(fl,s):
 	try:
