@@ -14,7 +14,6 @@ d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
 class ShowEvent(pyinotify.ProcessEvent):
     global d1
     def process_IN_ACCESS(self, event):
-        #global d1
         print d1+" : ACCESS \t\t:", event.pathname
 
     def process_IN_ATTRIB(self, event):
@@ -40,15 +39,17 @@ class ShowEvent(pyinotify.ProcessEvent):
 
 def main():
     # watch manager
-    wm = pyinotify.WatchManager()
-    wm.add_watch('/home', pyinotify.ALL_EVENTS, rec=True)
+    path = raw_input("Folder to Watch : ")
+    if path !="":
+        wm = pyinotify.WatchManager()
+        wm.add_watch(path, pyinotify.ALL_EVENTS, rec=True)
 
-    # event handler
-    eh = ShowEvent()
+        # event handler
+        eh = ShowEvent()
 
-    # notifier
-    notifier = pyinotify.Notifier(wm, eh)
-    notifier.loop()
+        # notifier
+        notifier = pyinotify.Notifier(wm, eh)
+        notifier.loop()
 
 if __name__ == '__main__':
     main()
