@@ -1,7 +1,8 @@
 # TOOL UNTUK DIRECTORY MONITOR 
-
-
 Directory atau Folder Monitor adalah tool yang bagus untuk melakukan pengawasan atau memonitor perubahan yang terjadi pada file dan direktori dan support sub-direktori
+
+## The License
+This Script license is full freeee.. :).
 
 ## Penelitian Malware 
 Latar belakang tool ini adalah, pada awalnya saya butuh tool untuk melakukan penelitian malware, saya membutuhkan sebuah tool yang dapat 
