@@ -36,5 +36,5 @@ diakses maka akan menampilkan even action close_write, access, dan open sehingga
 ### How To : 
 1. Download Script diatas, pilih sesuai base os anda, setelah download extract dan ingat nama foldernya
 2. Buka bash terminal dan arahkan ke folder script yang anda download
-3. dan ketik perintah : `dir-monitor-all-even.py` setelah itu isi folder yang akan di monitor contoh, `Folder to Watch : /var/log`
+3. dan ketik perintah : `python dir-monitor-all-even.py` setelah itu isi folder yang akan di monitor contoh, `Folder to Watch : /var/log`
 * kalo ada pesan Eroor module mising, tinggal gunakan perintah `pip install <modulname>`, exp: `pip install mondulname` or google it !.

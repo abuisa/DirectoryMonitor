@@ -66,7 +66,7 @@ class ShowEvent(pyinotify.ProcessEvent):
         d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
         print colored(d1+" : RENAME TO \t:" + event.pathname,'yellow')
 		
-def write_log(fl,s):
+def write_2log(fl,s):
 	try:
 		f = open(fl,'a+')
 		f.write(s+"\n")
