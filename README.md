@@ -5,8 +5,8 @@ Directory atau Folder Monitor adalah tool yang bagus untuk melakukan pengawasan 
 This Script license is full freeee.. :).
 
 ## TEST
-linux/dir-monitor-all-even.py : Suksess di test di sistem operasi Linux Lubuntu base on ubuntu 16.04
-windows/watchdog.py : Suksess di test di sistem operasi Windows 10 64 bit
+* linux/dir-monitor-all-even.py : Suksess di test di sistem operasi Linux Lubuntu base on ubuntu 16.04
+* windows/watchdog.py : Suksess di test di sistem operasi Windows 10 64 bit
 
 ## Penelitian Malware 
 Latar belakang tool ini adalah, pada awalnya saya butuh tool untuk melakukan penelitian malware, saya membutuhkan sebuah tool yang dapat 
