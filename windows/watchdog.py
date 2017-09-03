@@ -85,8 +85,8 @@ def watch_dir():
 			elif d0 == "RENAMED from :":
 				print(colored(d2,'yellow'))
 			else:
-				#print(colored(d2,'blue'))
-				print(d2)
+				print(colored(d2,'yellow'))
+				#print(d2)
 
 def write_2file(fl,s):
 	try:

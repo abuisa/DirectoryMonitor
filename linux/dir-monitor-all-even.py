@@ -16,55 +16,70 @@ from termcolor import colored
 
 class ShowEvent(pyinotify.ProcessEvent):
     #global d1, 
-    def process_IN_ACCESS(self, event):
-        tm = time.time()	#declare var here give real time 
+    def file_event(self,act, event,clr): # ini Experiment
+        tm = time.time()	
         d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
-        print colored(d1+" : ACCESS \t\t:" + event.pathname,'magenta')
+        print colored(d1+" : " + act + " \t:" + event.pathname,clr)
+		
+    def process_IN_ACCESS(self, event):
+        #tm = time.time()	#declare var here give real time 
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
+        #print colored(d1+" : ACCESS \t\t:" + event.pathname,'magenta')
+        self.file_event('ACCESS',event,'magenta')
 
     def process_IN_ATTRIB(self, event):
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
-        print colored(d1+" : ATTRIB \t\t:" + event.pathname,'white')
+        #tm = time.time()	
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
+        #print colored(d1+" : ATTRIB \t\t:" + event.pathname,'white')
+        self.file_event('ATTRIB',event,'blue')
 
     def process_IN_CLOSE_NOWRITE(self, event):
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
-        print colored(d1+" : CLOSE_NOWRITE \t:" + event.pathname,'white')
+        #tm = time.time()	
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
+        #print colored(d1+" : CLOSE_NOWRITE \t:" + event.pathname,'white')
+        self.file_event('C_No_W',event,'white') #CLOSE_NOWRITE
 
     def process_IN_CLOSE_WRITE(self, event):
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
-        print colored(d1+" : CLOSE_WRITE \t:" + event.pathname,'magenta')
+        #tm = time.time()	
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
+        #print colored(d1+" : CLOSE_WRITE \t:" + event.pathname,'magenta')
+        self.file_event('CLOSE_W',event,'magenta') #CLOSE_WRITE  				
 
     def process_IN_CREATE(self, event):
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
-        print colored(d1+" : CREATE \t\t:" + event.pathname,'green')
+        #tm = time.time()	
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
+        #print colored(d1+" : CREATE \t\t:" + event.pathname,'green')
+        self.file_event('CREATE',event,'green')   				
 
     def process_IN_DELETE(self, event):
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
-        print colored(d1+" : DELETE \t\t:" + event.pathname,'red')
-
+        #tm = time.time()	
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        #print colored(d1+" : DELETE \t\t:" + event.pathname,'red')
+        self.file_event('DELETE',event,'red')
+		
     def process_IN_MODIFY(self, event):
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
-        print colored(d1+" : MODIFY \t\t:" + event.pathname,'cyan')
-
+        #tm = time.time()	
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        #print colored(d1+" : MODIFY \t\t:" + event.pathname,'cyan')
+        self.file_event('MODIFY',event,'cyan')
+		
     def process_IN_OPEN(self, event):
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
-        print colored(d1+" : OPEN \t\t:" + event.pathname,'magenta')
+        #tm = time.time()	
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        #print colored(d1+" : OPEN \t\t:" + event.pathname,'magenta')
+        self.file_event('OPEN',event,'magenta')		
 
     def process_IN_MOVED_FROM(self,event):
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
-        print colored(d1+" : RENAME FROM \t:" + event.pathname,'yellow')
+        #tm = time.time()	
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        #print colored(d1+" : RENAME FROM \t:" + event.pathname,'yellow')
+        self.file_event('REN_From',event,'yellow') # MOVED From or RENAME FROM
 
     def process_IN_MOVED_TO(self,event):
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
-        print colored(d1+" : RENAME TO \t:" + event.pathname,'yellow')
+        #tm = time.time()	
+        #d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        #print colored(d1+" : RENAME TO \t:" + event.pathname,'yellow')
+        self.file_event('REN_To',event,'yellow')# MOVED To or RENAME TO		
 		
 def write_2log(fl,s):
 	try:
