@@ -16,32 +16,17 @@ init()
 ## Variable Global 
 wrk_dir = os.getcwd() + "\\"
 
-#print (d1)
-print ("""-------------------------
- input folder to watch,
- exp_1 : C:\\Users\\UserName
- exp_2 : D:\\ 
-------------------------- """)
-path_to_watch = input('Path to Watch : ')
-
-if path_to_watch == "" or path_to_watch == "x" or path_to_watch == "X":
-	pass
-	exit()
-	
-def watch_dir():
-	global wrk_dir,path_to_watch
+def watch_dir(path_to_watch):
+	global wrk_dir
 	ACTIONS = {
 	  1 : "CREATED",
 	  2 : "DELETED",
 	  3 : "UPDATED",
-	  4 : "RENAMED from :",
-	  5 : "RENAMED to :"
+	  4 : "REN from",
+	  5 : "REN to"
 	}
-	# Thanks to Claudio Grondi for the correct set of numbers
 	FILE_LIST_DIRECTORY = 0x0001
 
-	#path_to_watch = "C:\\"
-	
 	hDir = win32file.CreateFile (
 	  path_to_watch,
 	  FILE_LIST_DIRECTORY,
@@ -52,9 +37,6 @@ def watch_dir():
 	  None
 	)
 
-	# Daftar WARNA : 
-	## colored : yellow, magenta, cyan, red, blue, white	
-	
 	results = win32file.ReadDirectoryChangesW (
 	hDir,
 	1024,
@@ -68,6 +50,8 @@ def watch_dir():
 	None,
 	None
 	)
+	# Daftar WARNA : yellow, magenta, cyan, red, blue, white	
+	
 	for action, file in results:
 		full_filename = os.path.join (path_to_watch, file)
 		if not "ActionsREC.LOG" in full_filename:
@@ -83,7 +67,7 @@ def watch_dir():
 				print(colored(d2,'cyan'))
 			elif d0 == "CREATED":
 				print(colored(d2,'green'))
-			elif d0 == "RENAMED from :":
+			elif d0 == "REN from :":
 				print(colored(d2,'yellow'))
 			else:
 				print(colored(d2,'yellow'))
@@ -98,10 +82,20 @@ def write_2file(fl,s):
 	f.close
 
 try:
+	print ("""-------------------------
+ input folder to watch
+ exp_1 : C:\\Users\\UserName D:\\
+ exp_2 : D:\\ 
+------------------------- """)
+	path = input('Folder to Watch : ')
+	if path == "" or path == "x" or path == "X":
+		pass
+		exit()
+
 	#while 1:
 	while True:		
 		try:
-			watch_dir()
+			watch_dir(path)
 		except KeyboardInterrupt:
 			break
 except:
