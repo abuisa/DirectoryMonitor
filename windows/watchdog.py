@@ -17,10 +17,6 @@ init()
 ## Variable Global 
 wrk_dir = os.getcwd() + "\\"
 
-## Handle Time 
-tm = time.time()
-d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
-#d1 = strftime("%Y-%m-%d %H:%M:%S", gmtime()) # hasil waktu kurang tepat
 
 #print (d1)
 path_to_watch = input('Path to Watch : ')
@@ -29,7 +25,7 @@ if path_to_watch == "" or path_to_watch == "x" or path_to_watch == "X":
 	exit()
 	
 def watch_dir():
-	global wrk_dir,path_to_watch,d1
+	global wrk_dir,path_to_watch
 	ACTIONS = {
 	  1 : "CREATED",
 	  2 : "DELETED",
@@ -52,21 +48,8 @@ def watch_dir():
 	  None
 	)
 
-
-	#
-	# ReadDirectoryChangesW takes a previously-created
-	# handle to a directory, a buffer size for results,
-	# a flag to indicate whether to watch subtrees and
-	# a filter of what changes to notify.
-	#
-	# NB Tim Juchcinski reports that he needed to up
-	# the buffer size to be sure of picking up all
-	# events when a large number of files were
-	# deleted at once.
-	#
 	# Daftar WARNA : 
-	## colored : yellow, magenta, cyan, red, blue, white
-	
+	## colored : yellow, magenta, cyan, red, blue, white	
 	## 	 win32con.FILE_NOTIFY_CHANGE_LAST_ACCESS |
 	
 	results = win32file.ReadDirectoryChangesW (
@@ -87,7 +70,9 @@ def watch_dir():
 		if not "ActionsREC.LOG" in full_filename:
 			#print( full_filename, ACTIONS.get (action, "Unknown"))
 			d0 = ACTIONS.get(action, "Unknown")
-			#d1 = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+			## Handle Time 
+			tm = time.time()
+			d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
 			d2 = str(d1 + ' : '+ ACTIONS.get(action, "Unknown") +'\t --> '+full_filename)
 			#print (ACTIONS.get(action, "Unknown") +'\t --> '+full_filename)
 			write_2file(wrk_dir+'ActionsREC.LOG',d2)

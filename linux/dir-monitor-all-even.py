@@ -1,58 +1,84 @@
 import pyinotify
 
 # Module untuk handle time 
-#from time import gmtime, strftime
 import datetime
 import time
 
 #Modul untuk Warna
 from termcolor import colored
 
-## Handle Time 
-tm = time.time()
-d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
-
 # Daftar WARNA : 
 ## colored : yellow, magenta, cyan, red, blue, white
 
+# use tm and d1 as global variable not give real time
+## tm = time.time()	
+## d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
+
 class ShowEvent(pyinotify.ProcessEvent):
-    global d1
+    #global d1, 
     def process_IN_ACCESS(self, event):
-        print colored(d1+" : ACCESS \t\t:",'magenta'), colored(event.pathname,'magenta')
+        tm = time.time()	#declare var here give real time 
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
+        print colored(d1+" : ACCESS \t\t:" + event.pathname,'magenta')
 
     def process_IN_ATTRIB(self, event):
-        print  d1+" : ATTRIB \t\t:", event.pathname
+        tm = time.time()	
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
+        print colored(d1+" : ATTRIB \t\t:" + event.pathname,'white')
 
     def process_IN_CLOSE_NOWRITE(self, event):
-        print  d1+" : CLOSE_NOWRITE \t:", event.pathname
+        tm = time.time()	
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
+        print colored(d1+" : CLOSE_NOWRITE \t:" + event.pathname,'white')
 
     def process_IN_CLOSE_WRITE(self, event):
-        print  d1+" : CLOSE_WRITE \t:", event.pathname
+        tm = time.time()	
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
+        print colored(d1+" : CLOSE_WRITE \t:" + event.pathname,'magenta')
 
     def process_IN_CREATE(self, event):
-        print  colored(d1+" : CREATE \t\t:",'green'), colored(event.pathname,'green')
+        tm = time.time()	
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
+        print colored(d1+" : CREATE \t\t:" + event.pathname,'green')
 
     def process_IN_DELETE(self, event):
-        print  colored(d1+" : DELETE \t\t:",'red'), colored(event.pathname,'red')
+        tm = time.time()	
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        print colored(d1+" : DELETE \t\t:" + event.pathname,'red')
 
     def process_IN_MODIFY(self, event):
-        print  colored(d1+" : MODIFY \t\t:",'cyan'), colored(event.pathname,'cyan')
+        tm = time.time()	
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        print colored(d1+" : MODIFY \t\t:" + event.pathname,'cyan')
 
     def process_IN_OPEN(self, event):
-        print  d1+" : OPEN \t\t:", event.pathname
+        tm = time.time()	
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        print colored(d1+" : OPEN \t\t:" + event.pathname,'magenta')
 
     def process_IN_MOVED_FROM(self,event):
-        print colored(d1+" : RENAME FROM \t:",'yellow'), colored(event.pathname,'yellow')
+        tm = time.time()	
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        print colored(d1+" : RENAME FROM \t:" + event.pathname,'yellow')
 
     def process_IN_MOVED_TO(self,event):
-        print colored(d1+" : RENAME TO \t:",'yellow'), colored(event.pathname,'yellow')
+        tm = time.time()	
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')		
+        print colored(d1+" : RENAME TO \t:" + event.pathname,'yellow')
 		
-#IN_MOVED_FROM       File moved out of watched directory (*)
-#IN_MOVED_TO         File moved into watched directory (*)
+def write_log(fl,s):
+	try:
+		f = open(fl,'a+')
+		f.write(s+"\n")
+	except:
+		f = open(fl,'w')
+	f.close
+
 def main():
     # watch manager
     path = raw_input("Folder to Watch : ")
     if path !="":
+
         wm = pyinotify.WatchManager()
         wm.add_watch(path, pyinotify.ALL_EVENTS, rec=True)
 

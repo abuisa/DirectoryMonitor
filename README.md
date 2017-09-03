@@ -4,6 +4,10 @@ Directory atau Folder Monitor adalah tool yang bagus untuk melakukan pengawasan 
 ## The License
 This Script license is full freeee.. :).
 
+## TEST
+linux/dir-monitor-all-even.py : Suksess di test di sistem operasi Linux Lubuntu base on ubuntu 16.04
+windows/watchdog.py : Suksess di test di sistem operasi Windows 10 64 bit
+
 ## Penelitian Malware 
 Latar belakang tool ini adalah, pada awalnya saya butuh tool untuk melakukan penelitian malware, saya membutuhkan sebuah tool yang dapat 
 merekam apa yang terjadi terhadap file ataupun direktori dan menampilkannya dalam bentuk baris record yang bisa saya format sendiri outputnya,
@@ -19,7 +23,8 @@ hanya menghandel action atau kejadian ketika file diubah, dihapus, direname, dan
 1. Download Script diatas, pilih sesuai base os anda, setelah download extract dan ingat nama foldernya
 2. Pastikan anda telah meng-install python 3.x pada windows anda 
 3. Buka CMD.exe atau CommandPrompt dan arahkan ke folder script yang anda download
-4. dan ketik perintah : `python watchdog.py` setelah itu isi drive atau folder yang akan di monitor contoh, `Path to Watch : C:\`
+4. Install module `win32file`, dengan perintah di cmd.exe (sebagai administrator) : `pip install pywin32`, kalo sudah lanjut..
+5. dan ketik perintah : `python watchdog.py` setelah itu isi drive atau folder yang akan di monitor contoh, `Path to Watch : C:\`
 * kalo ada pesan Eroor module mising, tinggal gunakan perintah `pip install <modulname>`, exp: `pip install mondulname` or google it !.
 
 ## linux
