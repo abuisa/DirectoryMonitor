@@ -18,8 +18,12 @@ class ShowEvent(pyinotify.ProcessEvent):
     #global d1, # use d1 as global variable not give real time
     def file_event(self,act, event,clr): # ini Experiment
         tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')	
-        print colored(d1+" : " + act + " \t:" + event.pathname,clr)
+        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
+        if not 'ActionsREC.LOG' in event.pathname:
+            d2 = d1+" : " + act + " \t:" + event.pathname		
+            write_2log('ActionsREC.LOG',d2)
+            #print colored(d1+" : " + act + " \t:" + event.pathname,clr)
+            print colored(d2,clr)
 		
     def process_IN_ACCESS(self, event):
         self.file_event('ACCESS',event,'magenta')
@@ -60,10 +64,15 @@ def write_2log(fl,s):
 	f.close
 
 def main():
-    # watch manager
+    print ('''-------------------------
+ input folder to watch, support multi-folder,
+ exp : /var/log /home /mnt
+-------------------------''')
     path = raw_input("Folder to Watch : ")
-    if path !="":
+    path = path.split()
 
+    if path !="":
+        # watch manager
         wm = pyinotify.WatchManager()
         wm.add_watch(path, pyinotify.ALL_EVENTS, rec=True)
 
