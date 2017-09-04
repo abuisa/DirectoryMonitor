@@ -20,7 +20,7 @@ class ShowEvent(pyinotify.ProcessEvent):
         tm = time.time()	
         d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
         if not 'ActionsREC.LOG' in event.pathname: # disable baris ini jika gunakan exclude_filter (masih errror) 
-            d2 = d1+" : " + act + " \t:" + event.pathname		
+            d2 = d1+" : " + act + " \t: " + event.pathname		
             write_2log('ActionsREC.LOG',d2)
             print colored(d2,clr)
 		
