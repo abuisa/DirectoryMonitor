@@ -22,8 +22,8 @@ def watch_dir(path_to_watch):
 	  1 : "CREATED",
 	  2 : "DELETED",
 	  3 : "UPDATED",
-	  4 : "REN from",
-	  5 : "REN to"
+	  4 : "REN_Frm",
+	  5 : "REN_Too"
 	}
 	FILE_LIST_DIRECTORY = 0x0001
 
@@ -59,7 +59,7 @@ def watch_dir(path_to_watch):
 			## Handle Time 
 			tm = time.time()
 			d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
-			d2 = d1 + ' : '+ ACTIONS.get(action, "Unknown") +'\t --> '+full_filename
+			d2 = d1 + ' : '+ ACTIONS.get(action, "Unknown") +'\t :: '+full_filename
 			write_2file(wrk_dir+'ActionsREC.LOG',d2)
 			if d0 == "DELETED":
 				print(colored(d2,'red'))
@@ -67,7 +67,7 @@ def watch_dir(path_to_watch):
 				print(colored(d2,'cyan'))
 			elif d0 == "CREATED":
 				print(colored(d2,'green'))
-			elif d0 == "REN from :":
+			elif d0 == "REN_Frm":
 				print(colored(d2,'yellow'))
 			else:
 				print(colored(d2,'yellow'))
@@ -80,6 +80,12 @@ def write_2file(fl,s):
 	except:
 		f = open(fl,'w')
 	f.close
+def when_error():
+	tm = time.time()
+	d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
+	msg = d1 + ' : ERROR \t: ACTIONS cannot be handled'
+	write_2file(wrk_dir+'ActionsREC.LOG',msg)
+	print(msg)
 
 try:
 	print ("""-------------------------
@@ -96,8 +102,10 @@ try:
 	while True:		
 		try:
 			watch_dir(path)
-		except KeyboardInterrupt:
-			break
+		except:
+			#break
+			when_error()
 except:
 	pass
+	
 	
