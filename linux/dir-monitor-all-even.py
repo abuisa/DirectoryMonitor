@@ -1,31 +1,58 @@
-import pyinotify
+### * ---------------------- *
+### * ini untuk Linux System *
+### * ---------------------- *
 
+import pyinotify
+import sys
+import os
 # Module untuk handle time 
 import datetime
 import time
 
 #Modul untuk Warna
-from termcolor import colored
+from termcolor import colored, cprint
 
-# Daftar WARNA : 
-## colored : yellow, magenta, cyan, red, blue, white
+# Daftar WARNA colored : 
+## Text_Colors : yellow, magenta, cyan, red, blue, white, grey, green
+## Text_highlights : on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan, on_white
+## Attributes : bold, dark, underline, blink, reverse, concealed
+## Sumber : https://pypi.python.org/pypi/termcolor
 
 # use tm and d1 as global variable not give real time
 ## tm = time.time()	
 ## d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
 
+log_path = os.getcwd() 
+log_file = "ActionsREC.LOG"
+
 class ShowEvent(pyinotify.ProcessEvent):
     #global d1, # use d1 as global variable not give real time
+    
+    global log_file
     def file_event(self,act, event,clr): # ini Experiment
-        tm = time.time()	
-        d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
-        if not 'ActionsREC.LOG' in event.pathname: # disable baris ini jika gunakan exclude_filter (masih errror) 
-            d2 = d1+" : " + act + " \t: " + event.pathname		
-            write_2log('ActionsREC.LOG',d2)
-            print colored(d2,clr)
-		
+        global log_file	
+        try:
+            tm = time.time()	
+            d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S:%f')[:-4]
+            if not log_file in event.pathname: # disable baris ini jika gunakan exclude_filter (masih errror) 
+                d2 = d1+" : " + act + " : " + event.pathname
+                if len(sys.argv) >= 2:
+                    if sys.argv[1].strip() == "off" or sys.argv[1].strip() == "OFF":				
+                        offrec = colored("OFF_REC : ","red")+colored(d2,clr)
+                        print(offrec)
+                else:
+                    write_2log(log_file,d2)
+                    cprint(d2,clr)					
+                #print colored(d2,clr)
+                #cprint(d2,clr,attrs=['bold']) # Cetak Tebal 
+                #cprint(d2,clr,'on_grey') # Warna Latar : on_grey
+                #cprint(d2,clr)			
+        except:
+            cprint('---------ERROR-Cannot Watch !--------','white','on_blue')
+            pass
+			
     def process_IN_ACCESS(self, event):
-        self.file_event('ACCESS__EVENT',event,'magenta')
+        self.file_event('ACCESS__EVENT',event,'cyan')
 
     def process_IN_ATTRIB(self, event):
         self.file_event('ATTRIB__EVENT',event,'white')
@@ -60,22 +87,39 @@ def write_2log(fl,s):
 		f.write(s+"\n")
 	except:
 		f = open(fl,'w')
-	f.close
+		f.close
 
 def main():
+    global log_path, log_file
+
+    log = colored('Enable','green')
+    if len(sys.argv) >= 2:
+        if sys.argv[1].strip() == "off" or sys.argv[1].strip() == "OFF":
+            log = colored('Disable','red')
+
     print ('''-------------------------
  input folder to watch, support multi-folder,
- exp : /var/log /home /mnt
+ write log\t: '''+log+'''
+ log file\t: '''+colored(log_file,'green')+'''
+ log path\t: '''+colored(log_path,'green')+'''
+ example input\t: (Folder to Watch : /var/log /home /mnt)
 -------------------------''')
     path = raw_input("Folder to Watch : ")
     path = path.split()
     #exlist = ['ActionsREC.LOG^','tes.txt^'] ## exclude_filter masih Error, belum bisa digunakan 
     #exclist = pyinotify.ExcludeFilter(exlist)
-    
+    if path[0] == "x" or path[0] == "X":	
+        exit()
+
+    for xdir in path:
+        if not os.path.isdir(xdir):
+            cprint('Bukan DIR : '+xdir,'red')
+            exit()
+
     if path !="":
         # watch manager
         wm = pyinotify.WatchManager()
-        #wm.add_watch(path, pyinotify.ALL_EVENTS, rec=True''', exclude_filter=exclist''') # Not Working
+        #wm.add_watch(path, pyinotify.ALL_EVENTS, rec=True, exclude_filter=exclist) # Not Working
         wm.add_watch(path, pyinotify.ALL_EVENTS, rec=True)
 
         # event handler
