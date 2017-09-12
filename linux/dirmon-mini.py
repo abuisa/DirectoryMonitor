@@ -21,6 +21,7 @@ import psutil
 import datetime
 import time
 
+
 #Modul untuk Warna
 from termcolor import colored, cprint
 
@@ -63,17 +64,8 @@ class ShowEvent(pyinotify.ProcessEvent):
             cprint('---------ERROR-Cannot Watch !--------','white','on_blue')
             pass
 			
-    def process_IN_ACCESS(self, event):
-        self.file_event('ACCESS__EVENT',event,'cyan')
-
     def process_IN_ATTRIB(self, event):
         self.file_event('ATTRIB__EVENT',event,'white')
-
-    def process_IN_CLOSE_NOWRITE(self, event):
-        self.file_event('CLOSE_NoWRITE',event,'magenta') #CLOSE_NOWRITE
-
-    def process_IN_CLOSE_WRITE(self, event):
-        self.file_event('CLOSE___WRITE',event,'magenta') #CLOSE_WRITE  				
 
     def process_IN_CREATE(self, event):
         self.file_event('CREATE__EVENT',event,'green')   				
@@ -84,9 +76,6 @@ class ShowEvent(pyinotify.ProcessEvent):
     def process_IN_MODIFY(self, event):
         self.file_event('MODIFY__EVENT',event,'cyan')
 		
-    def process_IN_OPEN(self, event):
-        self.file_event('OPEN____EVENT',event,'magenta')		
-
     def process_IN_MOVED_FROM(self,event):
         self.file_event('RENAME___From',event,'yellow') # MOVED From or RENAME FROM
 
@@ -122,6 +111,7 @@ def main():
     #exclist = pyinotify.ExcludeFilter(exlist)
     if path[0] == "x" or path[0] == "X":	
         exit()
+
 
     for xdir in path:
         if not os.path.isdir(xdir):
