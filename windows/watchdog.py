@@ -15,6 +15,8 @@ init()
 
 ## Variable Global 
 wrk_dir = os.getcwd() + "\\"
+win_dir = os.environ['WINDIR'] + "\\"
+sys_dir = os.environ['WINDIR'] + "\\System\\"
 
 def watch_dir(path_to_watch):
 	global wrk_dir
@@ -72,7 +74,8 @@ def watch_dir(path_to_watch):
 			else:
 				print(colored(d2,'yellow'))
 
-
+				
+				
 def write_2file(fl,s):
 	try:
 		f = open(fl,'a+')
@@ -80,6 +83,7 @@ def write_2file(fl,s):
 	except:
 		f = open(fl,'w')
 	f.close
+
 def when_error():
 	tm = time.time()
 	d1 = datetime.datetime.fromtimestamp(tm).strftime('%d-%m-%Y %H:%M:%S')
@@ -87,6 +91,16 @@ def when_error():
 	write_2file(wrk_dir+'ActionsREC.LOG',msg)
 	print(msg)
 
+def create_bat_shrcut(f):
+	try:
+		f = open(f,'w')
+		f.write('@echo off\n')
+		f.write('python '+wrk_dir+'watchdog.py\n')
+		#print (' Success Create bat file : '+f)
+	except:
+		f = open(f,'w')
+	f.close	
+	
 try:
 	print ("""-------------------------
  input folder to watch
@@ -97,11 +111,19 @@ try:
 	if path == "" or path == "x" or path == "X":
 		pass
 		exit()
+		
+	try:
+		if create_bat_shrcut(win_dir+'watch.bat'):
+			print(' Success CREATED watch.bat as ShortCut ')
+	except:
+		print(' Error !, Gagal buat ShortCut, Coba dengan ADMINISTRATOR !')
 
-	#while 1:
-	while True:		
+	#path = path.split()
+	while True:			
 		try:
 			watch_dir(path)
+			#watch_dir(path[0])
+			#watch_dir_new(path[1])
 		except:
 			#break
 			when_error()
