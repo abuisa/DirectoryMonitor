@@ -2,7 +2,8 @@
 Directory atau Folder Monitor adalah tool yang bagus untuk melakukan pengawasan atau memonitor perubahan yang terjadi pada file dan direktori dan support sub-direktori
 
 ## The License
-This Script license is full freeee.. :).
+
+Freeee.. :).
 
 ## TEST
 * linux/dir-monitor-all-even.py : Suksess di test di sistem operasi Linux Lubuntu base on ubuntu 16.04
