@@ -11,6 +11,13 @@
 ### * ini untuk Linux System *
 ### * ---------------------- *
 
+### * Intall Module Depend-------- *
+### * sudo apt install python-pip
+### * pip install pyinotify
+### * pip install psutil
+### * pip install termcolor
+### * ---------------------------- *
+
 import pyinotify
 import sys
 import os
